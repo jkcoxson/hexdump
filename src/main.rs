@@ -64,7 +64,7 @@ fn main() {
                         // If it never stopped reading up the file break immediately
                         if up_stop == None {
                             if compact {
-                                println!("Same file");
+                                println!("{}", "Same file".blue());
                             } else {
                                 println!("{}", get_hex_string(bytes).blue());
                                 println!("{}", get_hex_string(compare_bytes).blue());
@@ -97,7 +97,7 @@ fn main() {
 
                         // Print out our results
                         if compact {
-                            println!("Size difference: {}", same_up.len() - same_down.len());
+                            println!("Size difference: {}", bytes.len() - compare_bytes.len());
                             print!("{} ", same_up.len().to_string().blue());
                             print!("{} ", chonk_size - same_up.len() - same_down.len());
                             print!("{} ", same_down.len().to_string().green());
