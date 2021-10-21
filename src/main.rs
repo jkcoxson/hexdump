@@ -2,7 +2,7 @@
 // Simple tool for analyzing hex dumps
 
 use colored::*;
-use std::io::Write;
+use std::{borrow::Borrow, io::Write};
 
 fn main() {
     let mut args: Vec<String> = std::env::args().collect();
@@ -33,15 +33,9 @@ fn main() {
         Ok(bytes) => {
             if &args.len() < &3 {
                 for i in bytes {
-                    if i == 10 {
-                        // newline character I guess
-                        print!("0A ");
-                    } else {
-                        print!("{:X} ", i);
-                    }
+                    print!("{:0>2X} ", i);
                 }
-                print!("\n");
-                std::io::stdout().flush().unwrap();
+                println!("");
             } else {
                 match std::fs::read(&args[2]) {
                     Ok(compare_bytes) => {
@@ -112,25 +106,23 @@ fn main() {
                             return;
                         }
                         print!("{} ", get_hex_string(same_up.clone()).blue());
-                        for i in up_stop.unwrap()..(chonk_size - down_stop.unwrap()) {
+                        for i in up_stop.unwrap()..(bytes.len() - down_stop.unwrap()) {
                             if bytes.len() > i {
-                                print!("{:X} ", bytes[i])
+                                print!("{:0>2X} ", bytes[i])
                             }
                         }
                         print!("{}", get_hex_string(same_down.clone()).green());
-                        print!("\n");
-                        std::io::stdout().flush().unwrap();
+                        println!("");
 
                         // Print the comparing line
                         print!("{} ", get_hex_string(same_up).blue());
-                        for i in up_stop.unwrap()..(chonk_size - down_stop.unwrap()) {
+                        for i in up_stop.unwrap()..(compare_bytes.len() - down_stop.unwrap()) {
                             if compare_bytes.len() > i {
-                                print!("{:X} ", compare_bytes[i])
+                                print!("{:0>2X} ", compare_bytes[i])
                             }
                         }
                         print!("{}", get_hex_string(same_down).green());
-                        print!("\n");
-                        std::io::stdout().flush().unwrap();
+                        println!("");
                     }
                     Err(_) => {
                         panic!("\n\nBad file!\n\n");
@@ -149,11 +141,11 @@ fn get_hex_string(vec: Vec<u8>) -> String {
     let mut to_return = "".to_string();
     for i in vec {
         if first {
-            to_return = format!("{:X}", i);
+            to_return = format!("{:0>2X}", i);
             first = false;
         } else {
-            to_return = format!("{} {:X}", to_return, i);
+            to_return += format!(" {:0>2X}", i).borrow();
         }
     }
-    return to_return;
+    to_return
 }
