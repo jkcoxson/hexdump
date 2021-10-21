@@ -9,10 +9,6 @@ fn main() {
     let mut compact = false;
     for i in 0..args.len() {
         if i < args.len() {
-            if args[i] == "--compact" || args[i] == "-c" {
-                compact = true;
-                args.remove(i);
-            }
             if args[i] == "--help" || args[i] == "-h" {
                 println!("      ###############");
                 println!("      ## Hexdumper ##");
@@ -23,6 +19,10 @@ fn main() {
                 println!("      --compact [-c]  Print the compare results in a compact way for large files");
                 println!("      --help    [-h]  Print this help message");
                 return;
+            }
+            if args[i] == "--compact" || args[i] == "-c" {
+                compact = true;
+                args.remove(i);
             }
         }
     }
