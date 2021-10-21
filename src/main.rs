@@ -13,6 +13,17 @@ fn main() {
                 compact = true;
                 args.remove(i);
             }
+            if args[i] == "--help" || args[i] == "-h" {
+                println!("      ###############");
+                println!("      ## Hexdumper ##");
+                println!("      ## jkcoxson  ##");
+                println!("      ###############\n\n");
+                println!("Usage: hd [flags] <file> [file]");
+                println!("Passing two files compares the hex starting from front to back and then back to front");
+                println!("      --compact [-c]  Print the compare results in a compact way for large files");
+                println!("      --help    [-h]  Print this help message");
+                return;
+            }
         }
     }
     if args.len() < 2 {
